@@ -45,6 +45,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="webAddressBarTextField" destination="l8k-Pt-evt" id="pqi-gr-j0X"/>
                         <outlet property="webView" destination="VpZ-NE-Y51" id="C44-ts-dfc"/>
                     </connections>
                 </viewController>

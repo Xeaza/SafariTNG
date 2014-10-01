@@ -11,6 +11,7 @@
 @interface ViewController () <UIWebViewDelegate, UITextFieldDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UITextField *webAddressBarTextField;
 
 @end
 
@@ -18,8 +19,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Initlize webview with homepage
-    [self loadWebsite:@"taylorwrightsanson.com"];
+
+    [self loadHomePage];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -32,25 +37,45 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
-    [self loadWebsite:textField.text];
+    [self checkAndLoadURLString:textField.text];
 
     return YES;
 }
 
-- (void)loadWebsite: (NSString *)webAddress {
+- (void)checkAndLoadURLString: (NSString *)webAddress {
 
     if ([webAddress containsString:@"http://"]) {
-        NSURL *url = [NSURL URLWithString:webAddress];
-        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-        [self.webView loadRequest:urlRequest];
+        [self loadURLString:webAddress];
+    }
+    else if ([webAddress containsString:@"www."]) {
+        NSString *httpPrefix = @"http://";
+        NSString *urlString = [httpPrefix stringByAppendingString:webAddress];
+        [self loadURLString:urlString];
     }
     else {
         NSString *httpPrefix = @"http://www.";
         NSString *urlString = [httpPrefix stringByAppendingString:webAddress];
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-        [self.webView loadRequest:urlRequest];
+        [self loadURLString:urlString];
     }
+}
+
+- (void)loadURLString: (NSString *)urlString {
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    [self.webView loadRequest:urlRequest];
+
+    [self updatePlaceHolderTextInTextField:urlString];
+}
+
+- (void)loadHomePage {
+    NSString *homePage = @"taylorwrightsanson.com" ;
+    [self checkAndLoadURLString:homePage];
+    [self updatePlaceHolderTextInTextField:homePage];
+}
+
+- (void)updatePlaceHolderTextInTextField: (NSString *)currentURLString {
+    self.webAddressBarTextField.text = currentURLString;
+    //self.webAddressBarTextField.placeholder = currentURLString;
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -67,7 +92,7 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        [self loadWebsite:@"http://www.taylorwrightsanson.com"];
+        [self loadHomePage];
     }
 }
 
