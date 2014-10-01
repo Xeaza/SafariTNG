@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UIWebViewDelegate>
+@interface ViewController () <UIWebViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
@@ -31,6 +31,16 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    NSString *urlString = textField.text;
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    [self.webView loadRequest:urlRequest];
+
+    return YES;
 }
 
 @end

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,31 +17,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YIo-QN-26R">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VpZ-NE-Y51">
+                                <rect key="frame" x="0.0" y="61" width="600" height="539"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
-                                </variation>
                                 <connections>
-                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="axz-Zc-PQG"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="ofz-jy-4zL"/>
                                 </connections>
                             </webView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l8k-Pt-evt">
+                                <rect key="frame" x="16" y="28" width="568" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="a8d-hd-njn"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="YIo-QN-26R"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="YIo-QN-26R"/>
-                            </mask>
-                        </variation>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="VpZ-NE-Y51" secondAttribute="trailing" constant="-16" id="GmF-W4-x0p"/>
+                            <constraint firstItem="l8k-Pt-evt" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="Gow-8r-wDM"/>
+                            <constraint firstItem="l8k-Pt-evt" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="g9X-6A-jij"/>
+                            <constraint firstItem="l8k-Pt-evt" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="iG6-9F-nsP"/>
+                            <constraint firstItem="VpZ-NE-Y51" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="qPn-xH-xq2"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="VpZ-NE-Y51" secondAttribute="bottom" id="sFj-IF-R4i"/>
+                            <constraint firstItem="VpZ-NE-Y51" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="41" id="ywn-b5-2fQ"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="webView" destination="YIo-QN-26R" id="EED-g8-s8o"/>
+                        <outlet property="webView" destination="VpZ-NE-Y51" id="C44-ts-dfc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
