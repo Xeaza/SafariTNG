@@ -34,8 +34,10 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    NSString *urlString = textField.text;
+
+    NSString *httpPrefix = @"http://www.";
+    NSString *urlString = [httpPrefix stringByAppendingString:textField.text];
+
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:urlRequest];
