@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UIWebViewDelegate, UITextFieldDelegate>
+@interface ViewController () <UIWebViewDelegate, UITextFieldDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
@@ -18,11 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    NSString *urlString = @"http://www.mobilemakers.co";
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [self.webView loadRequest:urlRequest];
+    // Initlize webview with homepage
+    [self loadWebsite:@"taylorwrightsanson.com"];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -35,14 +32,43 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
-    NSString *httpPrefix = @"http://www.";
-    NSString *urlString = [httpPrefix stringByAppendingString:textField.text];
-
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [self.webView loadRequest:urlRequest];
+    [self loadWebsite:textField.text];
 
     return YES;
+}
+
+- (void)loadWebsite: (NSString *)webAddress {
+
+    if ([webAddress containsString:@"http://"]) {
+        NSURL *url = [NSURL URLWithString:webAddress];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        [self.webView loadRequest:urlRequest];
+    }
+    else {
+        NSString *httpPrefix = @"http://www.";
+        NSString *urlString = [httpPrefix stringByAppendingString:webAddress];
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        [self.webView loadRequest:urlRequest];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    UIAlertView *alertView = [[UIAlertView alloc] init];
+    alertView.delegate = self;
+    alertView.title = @"Error!";
+    alertView.message = error.localizedDescription;
+    [alertView addButtonWithTitle:@"Try again"];
+    [alertView addButtonWithTitle:@"Go Home"];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self loadWebsite:@"http://www.taylorwrightsanson.com"];
+    }
 }
 
 @end
